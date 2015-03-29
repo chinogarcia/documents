@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/apikit http://www.mulesoft.org/schema/mule/apikit/current/mule-apikit.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd" version="EE-3.5.2">
+    <apikit:config name="api-bug-queryparameters-config" raml="api-bug-queryparameters.raml" consoleEnabled="true" consolePath="console" doc:name="Router"/>
+    <apikit:mapping-exception-strategy name="api-bug-queryparameters-apiKitGlobalExceptionMapping" doc:name="Mapping Exception Strategy">
+        <apikit:mapping statusCode="404">
+            <apikit:exception value="org.mule.module.apikit.exception.NotFoundException" />
+            <set-property propertyName="Content-Type" value="application/json" doc:name="Property"/>
+            <set-payload value="{ &quot;message&quot;: &quot;Resource not found&quot; }" doc:name="Set Payload"/>
+        </apikit:mapping>
+        <apikit:mapping statusCode="405">
+            <apikit:exception value="org.mule.module.apikit.exception.MethodNotAllowedException" />
+            <set-property propertyName="Content-Type" value="application/json" doc:name="Property"/>
+            <set-payload value="{ &quot;message&quot;: &quot;Method not allowed&quot; }" doc:name="Set Payload"/>
+        </apikit:mapping>
+        <apikit:mapping statusCode="415">
+            <apikit:exception value="org.mule.module.apikit.exception.UnsupportedMediaTypeException" />
+            <set-property propertyName="Content-Type" value="application/json" doc:name="Property"/>
+            <set-payload value="{ &quot;message&quot;: &quot;Unsupported media type&quot; }" doc:name="Set Payload"/>
+        </apikit:mapping>
+        <apikit:mapping statusCode="406">
+            <apikit:exception value="org.mule.module.apikit.exception.NotAcceptableException" />
+            <set-property propertyName="Content-Type" value="application/json" doc:name="Property"/>
+            <set-payload value="{ &quot;message&quot;: &quot;Not acceptable&quot; }" doc:name="Set Payload"/>
+        </apikit:mapping>
+        <apikit:mapping statusCode="400">
+            <apikit:exception value="org.mule.module.apikit.exception.BadRequestException" />
+            <set-property propertyName="Content-Type" value="application/json" doc:name="Property"/>
+            <set-payload value="{ &quot;message&quot;: &quot;Bad request&quot; }" doc:name="Set Payload"/>
+        </apikit:mapping>
+    </apikit:mapping-exception-strategy>
+    <flow name="api-bug-queryparameters-main" doc:name="api-bug-queryparameters-main">
+        <http:inbound-endpoint address="http://localhost:8081/api" doc:name="HTTP" exchange-pattern="request-response"/>
+        <apikit:router config-ref="api-bug-queryparameters-config" doc:name="APIkit Router"/>
+        <exception-strategy ref="api-bug-queryparameters-apiKitGlobalExceptionMapping" doc:name="Reference Exception Strategy"/>
+    </flow>
+    <flow name="get:/test:api-bug-queryparameters-config" doc:name="get:/test:api-bug-queryparameters-config">
+    	<set-property propertyName="Content-Type" value="application/json" doc:name="Property" />
+  <!--       <message-properties-transformer scope="invocation" doc:name="Set params query">
+            <add-message-property key="var_param1" value="#[message.inboundProperties['param1']]"/>
+            <add-message-property key="var_param2" value="#[message.inboundProperties['param2']]"/>
+        </message-properties-transformer> -->
+        
+        <set-variable variableName="var_param1" value="#[message.inboundProperties.'param1']" doc:name="Save param1"/>
+        <set-variable variableName="var_param2" value="#[message.inboundProperties.'param2']" doc:name="Save param2"/>
+        <!-- <set-variable variableName="var_param2" value="#[message.inboundProperties['param2']]" doc:name="Save param2"/> -->
+        <set-payload value="{&quot;param1&quot;:&quot;#[flowVars.var_param1]&quot;,&quot;param2&quot;:&quot;#[flowVars.var_param2]&quot;}" doc:name="Set Payload"/>
+        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+    </flow>
+</mule>

@@ -1,0 +1,19 @@
+#%RAML 0.8
+title: test bug http query params API
+version: 1.0
+protocols: [ HTTP, HTTPS ]
+mediaType: application/json
+baseUri: http://bughttp.com
+/test:
+  get:
+    queryParameters:
+      param1:
+        description: first param
+        type: integer
+        required: false
+        example: 1 
+      param2:
+        description: second param
+        type: integer
+        required: false
+        example: 2 
