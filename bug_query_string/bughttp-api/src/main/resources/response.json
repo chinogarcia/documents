@@ -1,0 +1,10 @@
+{
+	"[message.inboundProperties['http.query.params']['param1']]":"#[flowVars.param1FromMap]",
+	"[message.inboundProperties['http.query.params'].param1]":"#[flowVars.param1FromQueryParamsProperty]",
+	"[message.inboundProperties['param1']]":"#[flowVars.param1FromInboundsPropertyMap]",
+	"[message.inboundProperties.'param1']":"#[flowVars.param1Direct]",
+	"variable [message.inboundProperties['http.query.params']['param1']]":"#[flowVars.variableParam1FromMap]",
+	"variable [message.inboundProperties['http.query.params'].param1]":"#[flowVars.variableParam1FromQueryParamsProperty]",
+	"variable [message.inboundProperties['param1']]":"#[flowVars.variableParam1FromInboundsPropertyMap]",
+	"variable [message.inboundProperties.'param1']":"#[flowVars.variableParam1Direct]"
+}

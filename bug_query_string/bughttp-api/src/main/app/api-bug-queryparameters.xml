@@ -38,15 +38,18 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     </flow>
     <flow name="get:/test:api-bug-queryparameters-config" doc:name="get:/test:api-bug-queryparameters-config">
     	<set-property propertyName="Content-Type" value="application/json" doc:name="Property" />
-  <!--       <message-properties-transformer scope="invocation" doc:name="Set params query">
-            <add-message-property key="var_param1" value="#[message.inboundProperties['param1']]"/>
-            <add-message-property key="var_param2" value="#[message.inboundProperties['param2']]"/>
-        </message-properties-transformer> -->
-        
-        <set-variable variableName="var_param1" value="#[message.inboundProperties.'param1']" doc:name="Save param1"/>
-        <set-variable variableName="var_param2" value="#[message.inboundProperties.'param2']" doc:name="Save param2"/>
-        <!-- <set-variable variableName="var_param2" value="#[message.inboundProperties['param2']]" doc:name="Save param2"/> -->
-        <set-payload value="{&quot;param1&quot;:&quot;#[flowVars.var_param1]&quot;,&quot;param2&quot;:&quot;#[flowVars.var_param2]&quot;}" doc:name="Set Payload"/>
-        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+         <message-properties-transformer scope="invocation" doc:name="Set query filters">
+	         <add-message-property key="param1FromMap" value="#[message.inboundProperties['http.query.params']['param1']]"/>
+	         <add-message-property key="param1FromQueryParamsProperty" value="#[message.inboundProperties['http.query.params'].param1]"/>
+	         <add-message-property key="param1FromInboundsPropertyMap" value="#[message.inboundProperties['param1']]"/>
+	         <add-message-property key="param1Direct" value="#[message.inboundProperties.'param1']"/>
+         </message-properties-transformer>
+         
+		<set-variable variableName="variableParam1FromMap" value="{param1=#[message.inboundProperties['http.query.params']['param1']]}"/>
+		<set-variable variableName="variableParam1FromQueryParamsProperty" value="{param1=#[message.inboundProperties['http.query.params'].param1]}"/>
+        <set-variable variableName="variableParam1FromInboundsPropertyMap" value="{param1=#[message.inboundProperties['param1']]}"/>
+        <set-variable variableName="variableParam1Direct" value="{param1=#[message.inboundProperties.'param1']}"/>
+         
+		<parse-template location="response.json" />        
     </flow>
 </mule>
