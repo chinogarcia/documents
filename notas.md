@@ -1,4 +1,6 @@
-**Table of Contents**
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [React](#react)
   - [Documentación](#documentaci%C3%B3n)
@@ -7,6 +9,7 @@
       - [Changing _props_ and _state_](#changing-_props_-and-_state_)
     - [Flux](#flux)
     - [Redux](#redux)
+      - [Three Principles](#three-principles)
   - [Links a videos](#links-a-videos)
   - [Código de ejemplo](#c%C3%B3digo-de-ejemplo)
   - [Comparativas](#comparativas)
@@ -19,9 +22,12 @@
   - [Documentación](#documentaci%C3%B3n-1)
   - [Cheatsheet](#cheatsheet)
 - [ES6 (ES2015)](#es6-es2015)
+  - [link a videos](#link-a-videos)
+- [Ionic 2](#ionic-2)
   - [Documentación](#documentaci%C3%B3n-2)
   - [Código de ejemplo](#c%C3%B3digo-de-ejemplo-1)
 
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # React
 ## Documentación
@@ -59,6 +65,26 @@ Redux is like Flux in several ways, but it's different as well. It has these pie
 - Reducers: reducers listen to actions and make changes on the store values. They also cannot mutate the data on the store in any way, but must return a new set of data.
 - Actions: pretty much just like flux actions, the only difference is that async can be handled in multiple different ways depending on store "middleware"
 - Components: React components can be injected with various pieces of store data. React components also trigger Redux actions. This is what makes it all come together.
+- Redux does not have the concept of a Dispatcher
+- Redux assumes you never mutate your data
+
+#### Three Principles
+* Single source of truth (store)
+
+  The state of your whole application is stored in an object tree within a single store.
+
+* State is read-only (action)
+
+  The only way to mutate the state is to emit an action, an object describing what happened.
+
+  Actions are just plain objects
+
+* Changes are made with pure functions (reducers)
+
+  To specify how the state tree is transformed by actions, you write pure reducers.
+
+  Reducers are just pure functions that take the previous state and an action, and return the next state.
+  ** Remember to return new state objects, instead of mutating the previous state **
 
 
 ## Links a videos
@@ -127,6 +153,8 @@ https://angular.io/docs/ts/latest/tutorial/
 https://angular.io/docs/ts/latest/guide/cheatsheet.html
 
 # ES6 (ES2015)
+Agrego 
+
 It's important to know that this in an arrow function references the parent, it doesn't define a new this context.
 ```javascript
 function updateTime() {  
@@ -142,8 +170,10 @@ function updateTime() {
     setInterval(() => this.time = new Date(), 1000);
 }
 ```
+## link a videos
+https://www.youtube.com/playlist?list=PLoYCgNOIyGACDQLaThEEKBAlgs4OIUGif
 
-#Ionic 2
+# Ionic 2
 
 ## Documentación
 
