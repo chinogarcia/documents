@@ -185,18 +185,25 @@ y con eso ya puedo crear el **store**
 let store = createStore(todoApp)
 ```
 
-el ciclo de vida
+el ciclo de vida:
+
 1) ante un evento tira una acción store.dispatch(action)
+
 2) El store llama al reducer que le pasé
+
 3) Cuando termina el Store llama al subscribe (cada uno que se registro se entera)
+
 4) Cualquiera que esté suscripto puede llamar al store.getState y obtiene el nuevo estado
+
 
 Se habla de **Presentational Components** y **Container Components**, los primeros son componentes comunes de React (o ReactNative) sin ninguna contaminación de Redux, los 2dos, sí son los q conectan los primeros componentes con Redux.
 
 Technically, a **container component** is just a React component that uses **store.subscribe()** to read a part of the Redux state tree and supply props to a presentational component it renders
 
 **connect()**
-Si bien puedo escribir un container component a mano, se recomienda usar la función connect() de React Redux, para esto hay que definir **mapStateToProps** que recibe el state y devuelve un objeto que tiene las propiedades, actualizadas con el estado, del componente q voy a conectar (sería la parte del subscribe), además necesito la otra pata que es la que hace el dispatch del Action, para esto tenemos **mapDispatchToProps** que recibe el dispatch y retorna un objeto que tiene las propiedades callback del componente que estamos wrappeando. Ej:
+Si bien puedo escribir un container component a mano, se recomienda usar la función connect() de React Redux, para esto hay que definir **mapStateToProps** que recibe el state y devuelve un objeto que tiene las propiedades, actualizadas con el estado, del componente q voy a conectar (sería la parte del subscribe), además necesito la otra pata que es la que hace el dispatch del Action, para esto tenemos **mapDispatchToProps** que recibe el dispatch y retorna un objeto que tiene las propiedades callback del componente que estamos wrappeando. 
+
+Ej:
 ```javascript
 import { connect } from 'react-redux'
 
